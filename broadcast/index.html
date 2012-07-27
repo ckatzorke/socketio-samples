@@ -1,0 +1,30 @@
+<html>
+<head>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:1337');
+  socket.on('user connected', function (data) {
+    console.log("a new user entered the room....");
+  });
+  socket.on("user disconnected", function(){
+  	console.log("someone left the room...");
+  });
+  socket.on("message", function(data){
+  	console.log("Message: " + data);
+  });
+
+  function sendMsg(){
+  	var elem = document.getElementById("message");
+  	var data = elem.value;
+  	socket.emit("message", data);
+  }
+</script>
+</head>
+<body>
+Socket.io with broadcast.<br>
+Open another browser window pointing to this url.
+When you check back the console here, you will see a log message.<br>
+When you leave (close the window), you will see a console log in the other window.<br>
+You can send a message to all others: <input type="text" id="message"><button onclick="sendMsg()">send</button>
+</body>
+</html>
